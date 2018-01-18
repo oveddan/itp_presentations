@@ -1,0 +1,3 @@
+[submodule "blog-and-site-creation-with-hugo/themes/revealjs"]
+	path = blog-and-site-creation-with-hugo/themes/revealjs
+	url = https://github.com/RealOrangeOne/hugo-theme-revealjs
