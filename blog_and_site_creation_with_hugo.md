@@ -93,12 +93,21 @@ Copy the `config.toml` from the theme's example site to the root of your app. Fo
     hugo new posts/first-post.md
 
 Media goes in:
-```
-.
+`.
 └──static 
     └──images 
-    └──audio
-```
+    └──audio`
+
+---
+
+# Hugo 0.32 Image Processing
+
+{{< imgproc sunset Resize "300x" >}}
+
+![inline](https://d33wubrfki0l68.cloudfront.net/2c03f85a563bc16e2759a16f43ed9a4106ddfcc5/27333/about/new-in-032/about/new-in-032/sunset_hu59e56ffff1bc1d8d122b1403d34e039f_90587_300x0_resize_q75_box_center.jpg)
+
+[View the documentation](https://gohugo.io/about/new-in-032/#image-processing)
+
 
 ---
 
@@ -244,7 +253,7 @@ E.g. create `static/css/style-custom.css`
 
 # Overriding css
 
-Know about `CSS Specificity`.  From MDN:
+Know about `CSS Specificity`.  From [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity):
 
 0. Type selectors (e.g., h1) and pseudo-elements (e.g., ::before).
 1. Class selectors (e.g., .example), attributes selectors (e.g., [type="radio"]) and pseudo-classes (e.g., :hover).
@@ -445,3 +454,149 @@ To load a partial template:
 `{{ partial "header.html" . }}`
 
 ToDo: Template lookup order
+
+---
+
+# Template types
+
+* Homepage Template - `layouts/index.html`
+* List Page Template - `layouts/_default/list.html`
+* Single Page Template - `layouts/post/single.html`
+* Section Template - `layouts/_default/section.html`
+* Sitemap Template - `/layouts/sitemap.xml`
+* Base Template - `/layouts/_default/baseof.html`
+
+---
+
+# Base Template
+
+/layouts/_default/baseof.html
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ block "title" . }}
+      <!-- Blocks may include default content. -->
+      {{ .Site.Title }}
+    {{ end }}</title>
+  </head>
+  <body>
+    <!-- Code that all your templates share, like a header -->
+    {{ block "main" . }}
+      <!-- The part of the page that begins to differ between templates -->
+    {{ end }}
+    {{ block "footer" . }}
+    <!-- More shared code, perhaps a footer but that can be overridden if need be in  -->
+    {{ end }}
+  </body>
+</html>
+```
+
+---
+
+# Single Page Template
+
+layouts/post/single.html
+
+```html
+
+{{ define "main" }}
+<section id="main">
+  <h1 id="title">{{ .Title }}</h1>
+  <div>
+        <article id="content">
+           {{ .Content }}
+        </article>
+  </div>
+</section>
+<aside id="meta">
+    <div>
+    <section>
+      <h4 id="date"> {{ .Date.Format "Mon Jan 2, 2006" }} </h4>
+      <h5 id="wordcount"> {{ .WordCount }} Words </h5>
+    </section>
+    {{ with .Params.tags }}
+    <ul id="tags">
+      {{ range . }}
+        <li> <a href="{{ "tags" | absURL }}{{ . | urlize }}">{{ . }}</a> </li>
+      {{ end }}
+    </ul>
+    {{ end }}
+    </div>
+    <div>
+        {{ with .PrevInSection }}
+          <a class="previous" href="{{.Permalink}}"> {{.Title}}</a>
+        {{ end }}
+        {{ with .NextInSection }}
+          <a class="next" href="{{.Permalink}}"> {{.Title}}</a>
+        {{ end }}
+    </div>
+</aside>
+{{ end }}
+```
+
+---
+
+# List Page Template
+
+Types of list pages:
+* Taxonomy terms pages
+* Taxonomy list pages
+* Section list pages
+* RSS
+
+layouts/_default/list.html
+
+---
+
+# Examples of List Page Template
+
+```html
+{{ define "main" }}
+<main>
+    <article>
+        <header>
+            <h1>{{.Title}}</h1>
+        </header>
+        <!-- "{{.Content}}" pulls from the markdown content of the corresponding _index.md -->
+        {{.Content}}
+    </article>
+    <ul>
+    <!-- Ranges through content/post/*.md -->
+    {{ range .Data.Pages }}
+        <li>
+            <a href="{{.Permalink}}">{{.Date.Format "2006-01-02"}} | {{.Title}}</a>
+        </li>
+    {{ end }}
+    </ul>
+</main>
+{{ end }}
+```
+
+---
+
+# Section Page Template
+
+More specific version of list page templates. Used for pages like `content/blog/_index.md`.
+
+`layouts/_default/section.html`
+
+```html
+{{ define "main" }}
+  <main>
+      {{ .Content }}
+          <ul class="contents">
+          {{ range .Paginator.Pages }}
+              <li>{{.Title}}
+                  <div>
+                    {{ partial "summary.html" . }}
+                  </div>
+              </li>
+          {{ end }}
+          </ul>
+      {{ partial "pagination.html" . }}
+  </main>
+{{ end }}
+```
