@@ -4,14 +4,7 @@
 
 ---
 
-# How Wordpress Works
-
-* Requires lamp stack to be setup (php, apache, mysql).
-* Content in database
-* On shared server, db and app server is shared
-* Beholdent to them
-* Workflow: login to wordpress, open editor, edit content, upload media, publish
-* Theme editing has to be done through php
+![fit](hugo/wordpress.jpg) 
 
 ---
 
@@ -29,6 +22,10 @@
 
 ---
 
+# Lets get a Hugo site up and running
+
+---
+
 ## Install hugo
 
     brew install hugo
@@ -43,9 +40,7 @@
 
 ---
 
-# Add a theme
-
-https://themes.gohugo.io/
+### Add a theme (https://themes.gohugo.io/)
 
 We will use `hugo-theme-one` because it's minimal and simple
 
@@ -69,15 +64,8 @@ Start the server:
  
 Open the folder in a code editor (such as Atom)
 
-Edit config.toml:
-
-```
-theme="one"
-title="My blog"
-tags=["pcom"]
-[params]
-    navigation = ["archives.md", "about.md"]
-```
+Copy the `config.toml` from the theme's example site to the root of your app. For example: 
+`cp themes/one/exampleSite/config.toml .`
 
 ---
 
@@ -110,6 +98,26 @@ Media goes in:
 └──static 
     └──images 
     └──audio
+```
+
+---
+
+# Front Matter
+
+Attaches metadata to content
+
+```
+---
+title: "spf13-vim 3.0 release and new website"
+description: "spf13-vim is a cross platform distribution of vim plugins and resources for Vim."
+tags: [ ".vimrc", "plugins", "spf13-vim", "vim" ]
+lastmod: 2015-12-23
+date: "2012-04-06"
+categories:
+  - "Development"
+  - "VIM"
+slug: "spf13-vim-3-0-release-and-new-website"
+---
 ```
 
 ---
@@ -163,10 +171,10 @@ Instagram for https://www.instagram.com/p/BWNjjyYFxVx/
 ## Hugo Shortcodes (Contd.)
 
 Tweet for https://twitter.com/spf13/status/877500564405444608
-{{< tweet 877500564405444608 >}}
+`{{< tweet 877500564405444608 >}}`
 
 Vimeo for https://vimeo.com/channels/staffpicks/146022717
-{{< vimeo 146022717 >}}
+`{{< vimeo 146022717 >}}`
 
 ---
 
@@ -253,4 +261,187 @@ table td.fun { height: 50px; }
 /* overrides the above */
 table td { height: 50px !important; }
 ```
+---
 
+# Hugo Templates
+
+Access a Predefined Variable
+`{{ foo }}`
+
+
+Call a function - parameters are separated with spaces
+
+```go
+{{ add 1 2 }}
+```
+
+Methods and fields access via Dot
+
+`{{ .Params.bar }}`
+
+---
+
+# Hugo Variables
+
+Each Hugo template is passed a `Page` as a global data object.  To access a variable off it: 
+`<title>{{ .Title }}</title>`
+
+Values can be stored and accessed later:
+
+```go
+{{ $address := "123 Main St."}}
+{{ $address }}
+```
+
+---
+
+# Context
+
+Current context
+`{{ . }}`
+
+The context can change:
+
+```go
+{{ range array }}
+    {{ . }}
+{{ end }}
+```
+
+Access Global context with $.
+`{{ $.Site.Title }}`
+
+---
+
+# Iteration
+Using context:
+
+```go
+{{ range array }}
+    {{ . }}
+{{ end }}
+```
+
+Declaring Value => Variable Name
+
+```go
+{{range $element := array}}
+    {{ $element }}
+{{ end }}
+```
+
+---
+
+# Logic
+
+if...else if:
+
+```go
+{{ if isset .Params "alt" }}
+    {{ index .Params "alt" }}
+{{ else if isset .Params "caption" }}
+    {{ index .Params "caption" }}
+{{ end }}
+```
+
+with (if exists, and set the context):
+
+```go
+{{ with .Params.title }}<h4>{{ . }}</h4>{{ end }}
+```
+
+
+---
+
+# Page-level Params
+
+```
+---
+title: My First Post
+date: 2017-02-20T15:26:23-06:00
+categories: [one]
+tags: [two,three,four]
+```
+
+Can be referenced like:
+```
+.Params.tags
+.Params.categories
+```
+
+---
+
+# Page Variables
+Common to all pages. Some examples:
+
+* .Content
+* .Date
+* .Description
+* .Next (next according to publishdate)
+* .NextInSection
+* .WordCount
+
+---
+
+# Site Configuration Parameters
+These are globally available.  Can be declared in `config.yaml` like:
+
+```yaml
+params:
+  copyrighthtml: "Copyright &#xA9; 2017 John Doe. All Rights Reserved."
+  twitteruser: "spf13"
+  sidebarrecentlimit: 5
+```
+
+---
+
+# Site Configuration Parameters (cont.)
+
+`layouts/partials/twitter.html`:
+
+```go
+{{with .Site.Params.twitteruser}}
+<div>
+  <a href="https://twitter.com/{{.}}" rel="author">
+  <img src="/images/twitter.png" width="48" height="48" title="Twitter: {{.}}" alt="Twitter"></a>
+</div>
+{{end}}
+```
+
+---
+
+# Taxonomies
+
+How related content is grouped together
+
+`tags` and `categories` by default
+
+`Taxonomy Templates` define the home pages for taxonomies:
+* Taxonomy **List** Templates (`mysite.com/tags/pcom`)
+* Taxonomy **Term** Templates (`mysite.com/tags`)
+
+---
+
+# Showing taxonomy for Content
+
+Example - list tags in a page:
+
+```
+<ul id="tags">
+  {{ range .Params.tags }}
+    <li><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a> </li>
+  {{ end }}
+</ul>
+```
+
+---
+
+# Templates and Partial Templates
+
+To load a template:
+`{{ template "partials/header.html" . }}`
+
+To load a partial template:
+`{{ partial "header.html" . }}`
+
+ToDo: Template lookup order
