@@ -287,6 +287,8 @@ root[1] = temp
 
 # Names should be as specific as possible 
 
+![inline](high_quality_code/variable_names.jpg)
+
 ---
 
 # Boolean Variables
