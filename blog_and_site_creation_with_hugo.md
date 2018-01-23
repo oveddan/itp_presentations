@@ -225,9 +225,34 @@ Add repository as remote, and push:
 
 ---
 
+## Deploying to Github Pages (cont.)
 Configure github pages to use the docs folder
 
    ![inline](hugo/change_publish_dir.png)
+
+---
+
+# Deploying to Netlify
+
+Follow the [tutorial on Hugo's site](https://gohugo.io/hosting-and-deployment/hosting-on-netlify/)
+
+**To specify the Hugo version**, in the Deploy Settings of your Netlify site:
+
+1. Go to Build & Deploy
+2. Scroll down to Build environment variables. 
+3. Click `Edit Variables`
+4. Enter `HUGO_VERSION` : `0.32`
+
+![inline](hugo/HugoVersion.png)
+
+---
+
+## Deploying to Netlify
+### Publishing to subfolder (such as /blog)
+
+1. publish main site using custom domain of yourdomain.com
+2. get your blog configured on a second netlify site and served under /blog (so all contents should be /blog/*)
+3. set up a proxy from the first site to the second site:  https://www.netlify.com/docs/redirects/#proxying . Something like: `/blog/* https://blogsite.netlify.com/blog/:splat 200!`
 
 ---
 
