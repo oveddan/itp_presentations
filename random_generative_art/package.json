@@ -1,0 +1,18 @@
+{
+  "name": "random_generative_art",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "react": "^16.3.0",
+    "react-dimensions": "^1.3.1",
+    "react-dom": "^16.3.0",
+    "spectacle-scripts": "2.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
