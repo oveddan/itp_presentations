@@ -5,6 +5,8 @@ import React from 'react';
 import {
   BlockQuote,
   Cite,
+  Code,
+  CodePane,
   Deck,
   Heading,
   ListItem,
@@ -203,48 +205,73 @@ export default class Presentation extends React.Component {
           <Image src={require('./images/accuracy.png')} /> 
        </Slide>
        <Slide>
-         <Heading size={6}>Models are not accessable to most-people</Heading>
+         <Heading size={6}>Environment needed to run models are not accessable to most people</Heading>
          <Image src={require('./images/tesla.png')} />
        </Slide>
        <Slide>
-         Environment.
-         Either C++ with caffe.
-         Or python with tensorflow, caffe, or pytorch.
-         For decent performance, requires GPU and CUDA
-
-         Show sample system setup script
+         <Heading size={6}>RunwayML - "Machine Learning for Everyone"</Heading>
+         <Image src={require('./images/runwayml.png')} />
+       </Slide>
+       <Slide>
+         <Heading size={6}>To get decent performance, need powerful NVidia GPU with CUDA installed</Heading>
+         <Image src={require('./images/openpose_benchmark.png')} />
+         <Image src={require('./images/openposecpu.png')} />
        </Slide>
        <Slide>
          Talk about Presence struggles
        </Slide>
-       <Slide>
-         Interlude: RunwayML
+      <Slide>
+        <Heading size={6}>PoseNet in Tensorflow.js</Heading>
+        <text>in the <strong>browser,</strong> using the <strong>GPU,</strong> with a <strong>few lines of code</strong></text>
+
+        <text>4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu.</text>
       </Slide>
       <Slide>
-        Still problem with OpenPose
-        C++ 
-        or Cuda Setup.
-        Can setup server, but then data needs to travel to the internet and back.
+        <Heading size={6}>To install/use PoseNet:</Heading>
+        <Text>script tag:</Text>
+        <CodePane
+            lang="html"
+            source={`
+            <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+            <script src="https://unpkg.com/@tensorflow-models/posenet"></script>
+
+            <!--or with ml5:-->
+
+            <script src="https://unpkg.com/ml5" type="text/javascript"></script>
+            `}
+            padding="0px"
+            overflow="overflow"
+          />
+       <Text>with npm install:</Text>
+        <CodePane
+            lang="js"
+            source={`
+              npm install @tensorflow-models/posenet 
+            `}
+            padding="0px"
+            overflow="overflow"
+          />
       </Slide>
       <Slide>
-        Show performance table - with max gpu and cuda.
+        <Heading size={6}>How is this possible?</Heading>
+        <Image src={require('./images/tensorflowjs.png')} />
+        <List>
+          <ListItem><strong>GPU</strong>-Accelerated via WebGL</ListItem>
+          <ListItem>Access to <strong>sensors</strong> in the browser (camera, microphone, accelerometer, location)</ListItem>
+          <ListItem>Data stays <strong>private</strong></ListItem>
+        </List>
       </Slide>
       <Slide>
-        Enter tensorflow.js
-        Machine Learning in the browser
+        <Text>PoseNet gets 4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu - how?</Text>
+        <Heading size={6}>MobileNet architecture (2017)</Heading>
+        <Image src={require('./images/mobilenets.png')} />
+      </Slide>
+
+      <Slide>
+        Show edge computing difference
       </Slide>
       <Slide>
-        Does GPU neural network using shaders.
-        Install with command line, or via dropping script on page.
-        Everything in javascript
-      </Slide>
-      <Slide>
-        Access to all sensors available natively to browser:
-        * Microphone
-        * Webcam
-        * Accelerometer
-        * Location
-        * Midi
+        <Image src={require('./images/to_edge.png')} />
       </Slide>
       <Slide>
         Pre-Trained model
@@ -254,18 +281,10 @@ export default class Presentation extends React.Component {
       <Slide>
         Show advancing capabilities of gpus on the edge.
       </Slide>
-      <Slide>
-        <Image src={require('./images/to_edge.png')} />
-      </Slide>
-      <Slide>
+     <Slide>
         Talk about PoseNet
       </Slide>
-      <Slide>
-        <Heading>PoseNet uses a model with a MobileNet architecture</Heading>
-        <Image src={require('./images/mobilenets_accuracy.png')} />
-        <Caption>Conor McDonald</Caption>
-      </Slide>
-      <Slide>
+     <Slide>
         High level FPS.
         Few lines of code
         Data stays private
