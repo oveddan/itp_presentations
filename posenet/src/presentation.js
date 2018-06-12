@@ -197,8 +197,8 @@ export default class Presentation extends React.Component {
          <Image src={require('./images/coco.png')} />
        </Slide>
        <Slide>
-         <Heading size={4}>After training, pre-trained model can be used for "inference"</Heading>
-         Show graphic of feeding image to model and getting data back.
+         <Heading size={6}>After training, <strong>pre-trained model</strong> can be used for <strong>inference</strong></Heading>
+         <Image src={require('./images/inference.svg')} style='width: 25%'/>
        </Slide>
        <Slide>
           <Heading size={6}>General goal of researchers - <strong>Highest AP Accuracy</strong></Heading>
@@ -207,6 +207,9 @@ export default class Presentation extends React.Component {
        <Slide>
          <Heading size={6}>Environment needed to run models are not accessable to most people</Heading>
          <Image src={require('./images/tesla.png')} />
+       </Slide>
+       <Slide>
+         Talk about Presence struggles
        </Slide>
        <Slide>
          <Heading size={6}>RunwayML - "Machine Learning for Everyone"</Heading>
@@ -218,12 +221,16 @@ export default class Presentation extends React.Component {
          <Image src={require('./images/openposecpu.png')} />
        </Slide>
        <Slide>
-         Talk about Presence struggles
+         <Heading size={6}>Can set this up in the cloud...</Heading>
+         <Image src={require('./images/exportToCloud.svg')} style={{width: '25%'}} />
        </Slide>
-      <Slide>
+       <Slide>
+         <Heading size={6}>...or download and run it on "the Edge"</Heading>
+         <Image src={require('./images/EdgeComputing.svg')} />
+       </Slide>
+        <Slide>
         <Heading size={6}>PoseNet in Tensorflow.js</Heading>
-        <text>in the <strong>browser,</strong> using the <strong>GPU,</strong> with a <strong>few lines of code</strong></text>
-
+        <text>in the <strong>browser,</strong> using the <strong>GPU,</strong> with a <strong>few lines of code. </strong></text>
         <text>4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu.</text>
       </Slide>
       <Slide>
@@ -262,38 +269,122 @@ export default class Presentation extends React.Component {
         </List>
       </Slide>
       <Slide>
-        <Text>PoseNet gets 4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu - how?</Text>
+        <Image src={require('./images/InBrowserML.png')} />
+        <Notes>
+          Talk about all the sensors that are available.
+
+          WebGl is a standard and available everywhere, not matter what graphics card.  so It can run on that.
+        </Notes>
+      </Slide>
+      <Slide>
+        <Heading size={6}>Data Privacy</Heading>
+        <Image src={require('./images/EdgeComputing.svg')} />
+      </Slide>
+      <Slide>
+        <Text>PoseNet gets 4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu - <strong>how?</strong></Text>
+        <Image src={require('./images/awesomemultipose.gif')} />
+      </Slide>
+      <Slide>
         <Heading size={6}>MobileNet architecture (2017)</Heading>
         <Image src={require('./images/mobilenets.png')} />
+        <Notes>This was implemented in tf.js, and paved the way for us to do it in PoseNet.</Notes>
       </Slide>
+      <Slide>
+        <Heading size={6}>PoseNet models</Heading>
+        <Image src={require('./images/mobilenet_architectures.jpg')} />
+        <Text>Loading a model:</Text>
+        <CodePane
+            lang="js"
+            source={`
+              var model = await posenet.load(0.75);
+            `}
+            padding="0px"
+            overflow="overflow"
+          />
+        <Notes><strong>Ask who has seen await syntax before?</strong>
+        Say will not go into details, but it means that you have a function that will take some time to execute.
+        Here it is going to the cloud, and downloading the model
+        </Notes>
+      </Slide>
+     <Slide>
+        <Heading size={6}>Estimating a single pose</Heading>
+        <Image src={require('./images/singlepose_desc.png')} />
+      </Slide>
+      <Slide>
+        <Heading size={6}>Estimating a single pose</Heading>
+        <Image src={require('./images/singlevis.png')} />
+        <Text><a href='https://posenet-demos.netlify.com/abaeeeba114a54784c11cb49f1149e65.html'>Estimation Demo</a></Text>
+      </Slide>
+      <Slide>
+        <Heading size={6}>Estimating a single pose</Heading>
+        <CodePane
+            lang="js"
+            source={`
+              // load the model
+              var model = await posenet.load(0.75);
+              // get an image element
+              var image = document.getElementById('people');
+              // estimate a pose
+              var pose = await model.estimateSinglePose(image);
+              // print the outputs
+              console.log(pose);
+            `}
+            padding="0px"
+            overflow="overflow"
+          />
+        <CodePane
+           language="json"
+           source={`
+           {
+            "score": 0.32371445304906,
+            "keypoints": [
+              {
+                "position": {
+                  "y": 76.291801452637,
+                  "x": 253.36747741699
+                },
+                "part": "nose",
+                "score": 0.99539834260941
+              },
+              {
+                "position": {
+                  "y": 71.10383605957,
+                  "x": 253.54365539551
+                },
+                "part": "leftEye",
+                "score": 0.98781454563141
+              }
+              ...
+           }
+           `
+          } 
+          />
+      </Slide>
+      <Slide>
+        <Heading size={6}>How can keypoints be grouped into person instances?</Heading>
+        <Image src={require('./images/singleposeissues.png')} />
+      </Slide>
+      <Slide>
+        <Heading size={6} >Multiple Pose Estimation - Part Graph</Heading>
+        <Image src={require('./images/midrange.png')} />
+        <Text fit><a href='https://arxiv.org/pdf/1803.08225.pdf'>PersonLab: Person Pose Estimation and Instance Segmentation with a Bottom-Up, Part-Based, Geometric Embedding Model</a></Text>
+      </Slide>
+      <Slide>
+        <Heading size={6} >Multiple Pose Estimation</Heading>
+        <Image src={require('./images/multivis.png')} />
+        <Text><a href='https://posenet-demos.netlify.com/abaeeeba114a54784c11cb49f1149e65.html'>Estimation Demo</a></Text>
+       </Slide>
+       <Slide>
+         <Heading size={4}>Workshop: get up and running with PoseNet in P5 with ml5.js</Heading>
 
-      <Slide>
-        Show edge computing difference
-      </Slide>
-      <Slide>
-        <Image src={require('./images/to_edge.png')} />
-      </Slide>
-      <Slide>
-        Pre-Trained model
-        Ability to take pre-trained models done on the cloud in powerful servers,
-        and download them to the browser to be used in real time.
-      </Slide>
-      <Slide>
-        Show advancing capabilities of gpus on the edge.
-      </Slide>
-     <Slide>
-        Talk about PoseNet
-      </Slide>
-     <Slide>
-        High level FPS.
-        Few lines of code
-        Data stays private
-        People can just go to url
-        Developers can install very easily
-      </Slide>
-      <Slide>
-      </Slide>
+         <List>
+           <ListItem>Follow me on twitter: <a href='https://twitter.com/oveddan'>@oveddan</a></ListItem>
+           <ListItem><a href='https://ml5js.org'>https://ml5js.org</a></ListItem>
+           <ListItem><a href='https://github.com/tensorflow/tfjs-models/tree/master/posenet'>https://github.com/tensorflow/tfjs-models/tree/master/posenet</a></ListItem>
+         </List>
+       </Slide>
       </Deck>
+
     );
   }
 }
