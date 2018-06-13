@@ -143,7 +143,7 @@ export default class Presentation extends React.Component {
        <Slide>
          <Heading size={6}>What is Machine Learning?</Heading>
          <Image src={require('./images/whatismachine.png')} />
-         <Caption text='Slide: Yann Lecunn' />
+         <Text fit>Yann Lecunn - <a href='https://www.youtube.com/watch?v=0tEhw5t6rhc'>Power and Limits of Deep Learning</a></Text>
        </Slide>
        <Slide>
          <Heading size={6}>Classification</Heading>
