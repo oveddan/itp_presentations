@@ -3,15 +3,11 @@ import React from 'react';
 
 // Import Spectacle Core tags
 import {
-  BlockQuote,
-  Cite,
-  Code,
   CodePane,
   Deck,
   Heading,
   ListItem,
   List,
-  Quote,
   Slide,
   Text,
   Image,
@@ -31,7 +27,7 @@ const theme = createTheme(
   {
     primary: '#FDFFFC',
     secondary: '#E71D36',
-    tertiary: '#2EC4B6',
+    tertiary: '#FDFFFC',
     quartenary: '#011627',
   },
   {
@@ -48,43 +44,36 @@ export default class Presentation extends React.Component {
   render() {
     return (
       <Deck
-        transition={['zoom', 'slide']}
+        transition={['fade']}
         transitionDuration={500}
         theme={theme}
+        progress='none'
       >
-        <Slide transition={['zoom']} bgColor="quartenary">
+        <Slide bgColor="quartenary">
           <Heading size={1} fit lineHeight={1} textColor="primary">
             PoseNet in Tensorflow.js
           </Heading>
-          <Text margin="10px 0 0" textColor="tertiary" size={1}>
-             A <strong>machine learning</strong> model which allows for <strong>real-time</strong> human pose estimation in the <strong>browser.</strong>
-          </Text>
-          <Image src='http://www.danioved.com/images/posenet.gif' />
+          <Image src={require('./images/awesomemultipose.gif')} />
+          <Text textColor="primary">by Dan Oved <img src={require('./images/twitter.svg')} height='30px' />@oveddan</Text>
         </Slide>
-        <Slide transition={['fade']} bgColor="tertiary">
+        <Slide transition={['fade']} bgColor="quartenary">
           <Heading size={2} textColor="primary">
             <a href="https://storage.googleapis.com/tfjs-models/demos/posenet/camera.html">Live Demo</a>
           </Heading>
         </Slide>
-        <Slide bgColor="quarternary">
-          <Heading size={2} fit>
-            What is Pose Estimation?
-          </Heading>
-          <Image src={require('./images/what_is_pose_estimation.png')} />
-          <Notes>
-            <h4>Computer Vision Technique</h4>
-            <h5>Detect human figures in <b>image</b></h5>
-            <h5>Detect where <b>body parts</b> are</h5>
-          </Notes>
-        </Slide>
-        <Slide bgColor="quartenary">
+       <Slide bgColor="quartenary">
           <Heading size={1} >
-            What has it used for?
+            How has Pose Estimation been <strong>Used?</strong>
           </Heading>
         </Slide>
         <Slide bgColor="quartenary">
           <Text textColor="primary">Chris Milk - The Treachery of Sanctuary (2012)</Text>
           <Image src={require('./images/chris_milk_treachery.gif')} />
+        </Slide>
+        <Slide>
+          <Text>Fitness</Text>
+          <Image src={require('./images/gait.jpg')} />
+          <Caption text='runnerseed.com - Gait Analysis' />
         </Slide>
         <Slide bgColor="quartenary">
           <Text textColor="primary">Daniel Rozin - Pom Pom Mirror (2015)</Text>
@@ -93,6 +82,12 @@ export default class Presentation extends React.Component {
         <Slide bgColor="quartenary">
           <Text textColor="primary">Golan Levin - Ghost Pole Propagator II (2016)</Text>
           <Image src={require('./images/ghost_pole.gif')} />
+        </Slide>
+        <Slide bgColor="quartenary">
+          <InstagramEmbed url='https://www.instagram.com/p/BbkKLiegrTR/'
+          maxWidth={380}
+          containerTagName='div'
+          />
         </Slide>
         <Slide bgColor="quartenary">
           <InstagramEmbed url='https://www.instagram.com/p/BOwc--TBL7Z/'
@@ -160,21 +155,21 @@ export default class Presentation extends React.Component {
          <Heading size={6}>Detection</Heading>
          <Text><strong>Where</strong> are the objects in this image?</Text>
          <Text><strong>What</strong> are those objects?</Text>
-         <Image src={require('./images/detection.png')} />
+         <Image src={require('./images/detection.png')} style='width: 70%' />
          <Caption text="Mask RCNN"/>
        </Slide>       
        <Slide>
          <Heading size={6}>Segmentation</Heading>
          <Text><strong>Which pixels</strong> are part of different objects?</Text>
          <Text><strong>What</strong> are those objects?</Text>
-         <Image src={require('./images/segmentation.png')} />
+         <Image src={require('./images/segmentation.png')} style='width: 65%' />
          <Caption text="Mask RCNN"/>
        </Slide>         
        <Slide>
          <Heading size={6}>Human Pose (Keypoints)</Heading>
          <Text><strong>Where</strong> are the person <strong>keypoints?</strong></Text>
          <Text><strong>Which person</strong> does a keypoint belong to?</Text>
-         <Image src={require('./images/what_is_pose_estimation.png')} />
+         <Image src={require('./images/what_is_pose_estimation.png')} style='height: 400px' />
        </Slide>         
        <Slide>
          <Heading size={6}>Machine Learning Typically Done by training a (Convolutional) Neural Network</Heading>
@@ -189,11 +184,12 @@ export default class Presentation extends React.Component {
        </Slide>
        <Slide>
          <Heading size={6}>Supervised Learning requires Large Amounts of Labeled Data</Heading>
-         <Image src={require('./images/labeled_data.png')} />
+         <Image src={require('./images/imagenet.jpg')} />
+         <Caption text="ImageNet - 14 million images with over 20 thousand categories" />
        </Slide>
        <Slide>
-         <Heading size={4}>COCO dataset</Heading>
-         <Text>Currently contains 200,000 images, 250,000 labeled person instances with 17 keypoints</Text>
+         <Heading size={4}>COCO keypoints dataset</Heading>
+         <Text>Currently contains <strong>200,000</strong> images, <strong>250,000</strong> labeled person instances with 17 keypoints</Text>
          <Image src={require('./images/coco.png')} />
        </Slide>
        <Slide>
@@ -209,7 +205,7 @@ export default class Presentation extends React.Component {
          <Image src={require('./images/tesla.png')} />
        </Slide>
        <Slide>
-         Talk about Presence struggles
+         <Image src='http://www.danioved.com/images/presence.gif' />
        </Slide>
        <Slide>
          <Heading size={6}>RunwayML - "Machine Learning for Everyone"</Heading>
@@ -231,7 +227,7 @@ export default class Presentation extends React.Component {
         <Slide>
         <Heading size={6}>PoseNet in Tensorflow.js</Heading>
         <text>in the <strong>browser,</strong> using the <strong>GPU,</strong> with a <strong>few lines of code. </strong></text>
-        <text>4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu.</text>
+        <text>6 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu.</text>
       </Slide>
       <Slide>
         <Heading size={6}>To install/use PoseNet:</Heading>
@@ -281,12 +277,28 @@ export default class Presentation extends React.Component {
         <Image src={require('./images/EdgeComputing.svg')} />
       </Slide>
       <Slide>
-        <Text>PoseNet gets 4 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu - <strong>how?</strong></Text>
+        <Text>PoseNet gets 6 fps on IPhone 8, 15 fps on Macbook Pro, 30 fps on powerful gpu - <strong>how?</strong></Text>
         <Image src={require('./images/awesomemultipose.gif')} />
       </Slide>
       <Slide>
-        <Heading size={6}>MobileNet architecture (2017)</Heading>
+        <Heading size={6}>Models used in research not meant to run on mobile</Heading>
+        <Image src={require('./images/alexnet.png') }/>
+        <Caption text='AlexNet - 60 million parameters' />
+      </Slide>
+      <Slide>
+        <Heading size={6}>OpenPose uses VGG architecture</Heading>
+        <Image src={require('./images/vgg16.png') }/>
+        <Caption text='VGG - 138 million parameters.  200-500 MB' />
+      </Slide>
+      <Slide>
+        <Heading size={6}>MobileNets (April 2017)</Heading>
         <Image src={require('./images/mobilenets.png')} />
+      </Slide>
+      <Slide>
+        <Image src={require('./images/mobilenets_accuracy.png')} />
+        <Text>
+          MobileNets - between 8 to 9 times less computation at only a small reduction in accuracy
+        </Text>
         <Notes>This was implemented in tf.js, and paved the way for us to do it in PoseNet.</Notes>
       </Slide>
       <Slide>
@@ -307,8 +319,13 @@ export default class Presentation extends React.Component {
         </Notes>
       </Slide>
      <Slide>
-        <Heading size={6}>Estimating a single pose</Heading>
+        <Heading size={6}>Model Outputs -> single pose</Heading>
         <Image src={require('./images/singlepose_desc.png')} />
+      </Slide>
+      <Slide>
+        <Heading size={6}>Keypoints</Heading>
+        <Image src={require('./images/keypoints.png')} style='height: 500px'/>
+        <Caption text='illustration: Allexis Gallo' />
       </Slide>
       <Slide>
         <Heading size={6}>Estimating a single pose</Heading>
@@ -365,7 +382,13 @@ export default class Presentation extends React.Component {
         <Image src={require('./images/singleposeissues.png')} />
       </Slide>
       <Slide>
-        <Heading size={6} >Multiple Pose Estimation - Part Graph</Heading>
+        <Heading size={6} >Two-State with Bounding Boxes (April 2017)</Heading>
+        <Image src={require('./images/two_stage.png')} />
+        <Text fit><a href='https://arxiv.org/pdf/1701.01779'>Towards Accurate Multi-person Pose Estimation in the Wild</a></Text>
+      </Slide>
+ 
+      <Slide>
+        <Heading size={6} >Part Displacement Graph (March 2018)</Heading>
         <Image src={require('./images/midrange.png')} />
         <Text fit><a href='https://arxiv.org/pdf/1803.08225.pdf'>PersonLab: Person Pose Estimation and Instance Segmentation with a Bottom-Up, Part-Based, Geometric Embedding Model</a></Text>
       </Slide>
@@ -373,6 +396,9 @@ export default class Presentation extends React.Component {
         <Heading size={6} >Multiple Pose Estimation</Heading>
         <Image src={require('./images/multivis.png')} />
         <Text><a href='https://posenet-demos.netlify.com/abaeeeba114a54784c11cb49f1149e65.html'>Estimation Demo</a></Text>
+       </Slide>
+       <Slide>
+         <Image src={require('./images/ml5.png')} />
        </Slide>
        <Slide>
          <Heading size={4}>Workshop: get up and running with PoseNet in P5 with ml5.js</Heading>
