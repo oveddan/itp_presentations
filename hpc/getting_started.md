@@ -1,9 +1,9 @@
 # Getting Started on NYU's HPC, for ITP Students
 
-Did you know that NYU has powerful computing power available for free for students?  This workshop will be an introduction to [NYU's HPC,](https://www.nyu.edu/life/information-technology/research-and-data-support/high-performance-computing.html) an environment where you can run machine learning jobs with powerful GPUs for free.  To preview what's possible to use, check out the resources [available on the Prince Cluster](https://wikis.nyu.edu/display/NYUHPC/Clusters+-+Prince)
+Did you know that NYU has powerful computing power available for free for students?  This workshop will be an introduction to [NYU's HPC,](https://www.nyu.edu/life/information-technology/research-and-data-support/high-performance-computing.html) an environment where you can run machine learning jobs with powerful GPUs for free.  To preview what's possible to use, check out the resources [available on the Prince Cluster.](https://wikis.nyu.edu/display/NYUHPC/Clusters+-+Prince)
 
-This workshop will be a series geared toward ITP students.  This first workshop of the series will go over:
-In it we will go over:
+This will be a series geared toward ITP students.  This first workshop of the series will go over:
+
 1. What are the machine learning frameworks available
 2. How to request an account and gain access.
 3. How to login to the servers, and start jobs
@@ -16,9 +16,11 @@ Credit goes to [Cristóbal Valenzuela](https://github.com/cvalenzuela) and his o
 
 ## Overview of Machine Learning Frameworks
 
+### Tensorflow in Python
+
 ![Tensorflow Logo](https://i0.wp.com/www.jessicayung.com/wp-content/uploads/2016/12/tensorflow-logo.jpg?fit=225%2C225&ssl=1)
 
-[Tensorflow](https://www.tensorflow.org/) is a machine learning framework that runs in python.  It has two versions:
+[Tensorflow](https://www.tensorflow.org/) is an open-source machine learning framework created by Google that runs in python.  It has two versions:
 
     pip install tensorflow
 
@@ -28,21 +30,36 @@ Installs Tensorflow in python, to run **on the CPU**.  This works on most enviro
 
 Installs Tensorflow in python, to run **on the GPU**.  It provides a signnificant speed increase when training and running deep neural networks, and is pretty much required to do any sort of decent work with these types of models. It only works with **NVidia GPUs,** on **linux** or **Windows** machines. Additionally it requires specific versions of NVidia's **cuda** and **cudnn** to be installed, which is a non-trivial process.  
 
+### CUDA and cuDNN 
+
+![Cuda Logo](https://upload.wikimedia.org/wikipedia/en/thumb/b/b9/Nvidia_CUDA_Logo.jpg/300px-Nvidia_CUDA_Logo.jpg)
+
+CUDA and cuDNN are interfaces for accelerated machine learning using NVidia GPUs.  They are required to be installed in order to GPU accelerated version of tensorflow or torch in python and tensorflow.js in node, and generally is only [installable on Linux and Windows machines.](https://towardsdatascience.com/installing-tensorflow-with-cuda-cudnn-and-gpu-support-on-windows-10-60693e46e781)
+
+### Tensoflow.js
+
 ![Tensorflow.js](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQc5yX_NSKMq_xLEd4EB5nla7g6TovEajTZOvcmYzHx_OfYVvR)
 
-Models trained in tensorflow in python can be converted to run in javascript using the [Tensorflow.js converter](https://www.tensorflow.org/js/guide/conversion).  This allows these trained models to be run using [tensorflow.js](https://www.tensorflow.org/js) in the browser or on your desktop using the terminal and node.js.
+Models trained in tensorflow in python can be converted to run in javascript using the [Tensorflow.js converter](https://www.tensorflow.org/js/guide/conversion).  This allows these trained models to be run using [tensorflow.js](https://www.tensorflow.org/js) in the browser, or on your computer or server using the terminal and node.js.
 
-One of the nice things about tensorflow.js, is that its api mimics that of the python api, allowing models to be converted easily from python to tensorflow.js without much effort.  The other nice thing about tensorflow.js is that the framework is the same, but the backend, which is where the neural networks are run, can be changed easily.  These backends include:
+One of the nice things about tensorflow.js, is that its API mimics that of the python api, allowing models to be converted easily from python to tensorflow.js without much effort.  The other nice thing about tensorflow.js is that is has many different backends.  These backends, which is where the neural networks are run, can be changed easily, with minimal change to the code.  The types of backends includes:
 
-* **tensorflow.js using the GPU in the browser** - this is the most common use case. This runs neuarl networks using GPU shaders in the browser.  The great thing about this is anyone can access and run these models by opening a url.
-* **tensorflow.js in Node using the CPU** - is installed with `npm install @tensorflow/tfjs-node` Behind the scenes, this is bound to a C++ version of Tensorflow.  It is a way to run is a way to run tensorflow in javascript using node.js, with all the performance benefits of C++
+* **tensorflow.js using the GPU in the browser** - this is the most common use case. This runs neural networks using GPU shaders in the browser.  The great thing about this is anyone can access and run these models by opening a url.
+* **tensorflow.js in Node using the CPU** - is installed with `npm install @tensorflow/tfjs-node` Behind the scenes, this is bound to a C++ version of Tensorflow.  It is a way to run tensorflow in javascript using node.js, with all the performance benefits of C++
 * **tensorflow.js in Node using the GPU** - it is installed with `npm install @tensorflow/tfjs-node-gpu` . Behind the scenes, this installs a CUDA version of tensorflow, and you call this in javascript using node.js.   You get all of the benefits of the fast performance using the GPU, but get to write code in javascript.  This requires a **linux** or **windows** computer with an **NVidia GPU and CUDA installed.**
+
+### ml5
 
 ![ml5 logo](https://ml5js.org/static/1552ab71e134d3f6aaed0c39fbc0b83c/94d86/logo-purple-circle.png) 
 
 [ml5](https://ml5js.org/), created by students at ITP, is an easy to use wrapper around tensorflow.js that comes with some pretrained models that can be loaded and used with a few lines of code.
 
 With the HPC, **you can train a model using the GPU's on the cluster, convert them into tensorflow.js models, and run them in ml5.**
+
+### PyTorch 
+
+[PyTorch](https://pytorch.org/), created by researchers at Facebook, is another popular machine learning framework.  I personally don't have much experience with it, so for now will leave it out of this documentation but will fill it in once I experiment with it some more.
+
 
 ## Gaining access
 
@@ -338,6 +355,55 @@ Each user gets **2B of storage** on the `$ARCHIVE` drive. Files here are permane
 
 Temporary storage that is mounted for each `compute job.` This will be the fastest way to access data, but it gets cleaned after the job is run.  To use this for a job, you would need to copy files into this drive then acccess them during the job.  It's an 'advanced' topic to do this but we can go over how in a future session.
 
+## Transfering files to and from the Prince Cluster
+
+### Using Secure Copy (SCP)
+
+The most straightforward way to transfer files between your computer and the Prince Cluster is to use [Secure Copy, or scp](http://www.hypexr.org/linux_scp_help.php).
+
+The standard syntax is:
+
+    scp {SOURCE_PATH} {DESTINATION_PATH}
+
+Which copies a file at the source path to the destination path.  When the source or destination is a remote server, the server name or address must be appended followed by a `:` before the corresponding path.
+
+Lets look at some examples:
+
+    scp ~/Downloads/image.png prince:/home/my898/
+
+This copies the file `image.png` located in the `Downloads` folder in the `home` folder on your computer to the home directory of a user with the name my898.  **Note that the `~` symbol in the source path refers to the `home` directory of your user.**
+
+How do we know that `/home/my898` is the home directory of the user with name `my898`?  The way to do this is to ssh into the server you want to upload to:
+
+    ssh prince
+
+By default, you start in the home folder.  To get the path to that folder:
+
+    pwd
+
+If the user is `my898` This will print out:
+
+    /home/my898
+
+So, whenever you want to figure out the directory to copy to or from, use the command `pwd`
+
+To download a file from the cluster to your computer:
+
+    scp prince:/home/my898/file.txt ~/Downloads/
+
+Which will download the file on `prince` located at `/home/my898/file.txt` to `~/Downloads`
+
+When downloading/uploading folders, at the flag `-r` (recursive):
+
+    scp -r ~/Downloads/someFolder prince:/scratch/my898/
+
+Uploads the folder at `~/Downloads/someFolder` to the scratch directory on `prince`.
+    
+
+    scp -r prince:/scratch/my898/someOtherFolder ~/Downloads/
+
+Downloads the folder on `prince` at `/scratch/my898/someOtherFolder` to the `~/Downloads` folder on your computer.
+ 
 ---
 
 For next time, create an HPC account, setup passwordless authentication, and login to the cluster using passwordless authentication.  
