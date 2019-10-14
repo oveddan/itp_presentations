@@ -1,8 +1,8 @@
-# Getting Started on NYU's HPC, for ITP Students
+# Getting Started on NYU's HPC, for ITP Students and Faculty
 
 Did you know that NYU has powerful computing power available for free for students?  This workshop will be an introduction to [NYU's HPC,](https://www.nyu.edu/life/information-technology/research-and-data-support/high-performance-computing.html) an environment where you can run machine learning jobs with powerful GPUs for free.  To preview what's possible to use, check out the resources [available on the Prince Cluster.](https://wikis.nyu.edu/display/NYUHPC/Clusters+-+Prince)
 
-This will be a series geared toward ITP students.  This first workshop of the series will go over:
+This will be a series geared toward ITP students and Faculty.  This first workshop of the series will go over:
 
 1. What are the machine learning frameworks available
 2. How to request an account and gain access.
